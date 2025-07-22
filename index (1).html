@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Popup on Submit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f5f5f5;
+    }
+    .choices {
+      margin-bottom: 20px;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid #333;
+      padding: 20px;
+      z-index: 999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .popup video {
+      width: 100%;
+      max-width: 500px;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 998;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>MAHAL MO PA?</h2>
+
+  <form id="videoForm" class="choices">
+    <label><input type="radio" name="videoChoice" value="1" required> Oo</label><br>
+    <label><input type="radio" name="videoChoice" value="2"> medyo</label><br>
+    <label><input type="radio" name="videoChoice" value="3"> siguro?</label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="popup" id="videoPopup">
+    <video id="videoPlayer" controls autoplay></video>
+    <br><br>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('videoForm');
+    const videoPopup = document.getElementById('videoPopup');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const overlay = document.getElementById('overlay');
+
+    // Sample video file links from sample-videos.com and techslides.com
+    const videoSources = {
+      1: 'video/video1.mp4',
+      2: 'video/video2.mp4',
+      3: 'video/video3.mp4'
+        };
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const choice = document.querySelector('input[name="videoChoice"]:checked').value;
+      const videoSrc = videoSources[choice];
+
+      videoPlayer.src = videoSrc;
+      videoPopup.style.display = 'block';
+      overlay.style.display = 'block';
+    });
+
+    function closePopup() {
+      videoPopup.style.display = 'none';
+      overlay.style.display = 'none';
+      videoPlayer.pause();
+      videoPlayer.currentTime = 0;
+    }
+  </script>
+
+
+</body></html>
